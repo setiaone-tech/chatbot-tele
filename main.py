@@ -13,13 +13,13 @@ def log(message, perintah):
     log_bot.write(text_log)
     log_bot.close()
 
-api = "1308184622:AAG850ULzfuHg2FbLomTutIYa7pLsDRyiK0"
+api = "TELEGRAM API"
 bot = telebot.TeleBot(api)
 headers = {
         "Accept": "application/json",
         "Content-Type": "application/json",
         "Connection": "keep-alive",
-        "Authorization": "Bearer EnOZgYrqJu72S55MQLU6BBwo2pHQtS"
+        "Authorization": "Bearer api-key"
     }
 
 @bot.message_handler(commands=['start'])
@@ -42,7 +42,7 @@ def send_ig(message):
     if ':' in bagi:
         user = bagi.split(':')
         username = user[1]
-        url = requests.get('https://mhankbarbar.herokuapp.com/api/stalk?username='+username+'&apiKey=qZOpWeYe2QqxGTQkUZ2L').json()
+        url = requests.get('https://mhankbarbar.herokuapp.com/api/stalk?username='+username+'&apiKey=api-key').json()
         print(url)
         if url['status'] == 200:
             bot.send_photo(chat_id, url['Profile_pic'])
@@ -59,7 +59,7 @@ def send_wiki(message):
     if ':' in bagi:
         user = bagi.split(':')
         cari = user[1]
-        url = requests.get('https://mhankbarbar.herokuapp.com/api/wiki?q='+cari+'&lang=id&apiKey=qZOpWeYe2QqxGTQkUZ2L').json()
+        url = requests.get('https://mhankbarbar.herokuapp.com/api/wiki?q='+cari+'&lang=id&apiKey=api-key').json()
         if url['status'] == 200:
             hasil = url['result'].split('===')
             n = 0
@@ -109,7 +109,7 @@ def send_ytm3(message):
     pesan = message.text
     bagi = pesan.split(' ')
     cari = bagi[1]
-    url = requests.get('https://mhankbarbar.herokuapp.com/api/yta?url='+cari+'&apiKey=qZOpWeYe2QqxGTQkUZ2L').json()
+    url = requests.get('https://mhankbarbar.herokuapp.com/api/yta?url='+cari+'&apiKey=api-key').json()
     if url['status'] == 200:
         bot.send_audio(chat_id, url['result'])
     else:
@@ -122,7 +122,7 @@ def send_twt(message):
     if ':' in bagi:
         user = bagi.split(':')
         username = user[1]
-        url = requests.get('https://mhankbarbar.herokuapp.com/api/twstalk?username='+username+'&apiKey=qZOpWeYe2QqxGTQkUZ2L').json()
+        url = requests.get('https://mhankbarbar.herokuapp.com/api/twstalk?username='+username+'&apiKey=api-key').json()
         if url['status'] == 200:
             bot.send_photo(chat_id, url['profile_pic'])
             bot.send_message(chat_id, "ID : "+url['id']+"\nNama :"+url['full_name']+"\nJumlah Status : "+url['status_count']+"\nPengikut : "+url['followers_count'])
@@ -138,7 +138,7 @@ def send_kuso(message):
     if ':' in bagi:
         pesan = bagi.split(':')
         cari = pesan[1]
-        url = requests.get('https://mhankbarbar.herokuapp.com/api/kuso?q='+cari+'&apiKey=qZOpWeYe2QqxGTQkUZ2L').json()
+        url = requests.get('https://mhankbarbar.herokuapp.com/api/kuso?q='+cari+'&apiKey=api-key').json()
         if url['status'] != 200:
             bot.send_message(chat_id, "Judul Tidak Ditemukan!")
         else:
@@ -154,7 +154,7 @@ def send_nulis(message):
     if ':' in pesan:
         bagi = pesan.split(':')
         tulis = bagi[1]
-        url = requests.get('https://mhankbarbar.herokuapp.com/nulis?text='+tulis+'&apiKey=qZOpWeYe2QqxGTQkUZ2L').json()
+        url = requests.get('https://mhankbarbar.herokuapp.com/nulis?text='+tulis+'&apiKey=api-key').json()
         hasil = url['result']
         bot.send_photo(chat_id, hasil)
     else:
@@ -167,7 +167,7 @@ def send_sholat(message):
     if ':' in pesan:
         bagi = pesan.split(':')
         cari = bagi[1]
-        url = requests.get('https://mhankbarbar.herokuapp.com/api/jadwalshalat?daerah='+cari+'&apiKey=qZOpWeYe2QqxGTQkUZ2L').json()
+        url = requests.get('https://mhankbarbar.herokuapp.com/api/jadwalshalat?daerah='+cari+'&apiKey=api-key').json()
         bot.send_message(chat_id, 'Imsyak : '+url['Imsyak']+'\nSubuh : '+url['Subuh']+'\nDzuhur : '+url['Dzuhur']+'\nAshar : '+url['Ashar']+'\nMaghrib : '+url['Maghrib']+'\nIsya : '+url['Isya']+'\nMalam : '+url['Dhuha'])
     else:
         bot.reply_to(message, 'Command Salah!')
@@ -296,7 +296,7 @@ def send_igm4(message):
     pesan = message.text
     bagi = pesan.split(' ')
     cari = bagi[1]
-    url = requests.get('https://mhankbarbar.herokuapp.com/api/ig?url='+cari+'&apiKey=qZOpWeYe2QqxGTQkUZ2L').json()
+    url = requests.get('https://mhankbarbar.herokuapp.com/api/ig?url='+cari+'&apiKey=api-key').json()
     if url['status'] == 200:
         bot.send_video(chat_id, url['result'])
     else:
@@ -308,7 +308,7 @@ def send_jpg(message):
     pesan = message.text
     bagi = pesan.split(' ')
     cari = bagi[1]
-    url = requests.get('https://mhankbarbar.herokuapp.com/api/ig?url='+cari+'&apiKey=qZOpWeYe2QqxGTQkUZ2L').json()
+    url = requests.get('https://mhankbarbar.herokuapp.com/api/ig?url='+cari+'&apiKey=api-key').json()
     if url['status'] == 200:
         bot.send_photo(chat_id, url['result'])
     else:
@@ -318,7 +318,7 @@ def send_jpg(message):
 def send_animewp(message):
     chat_id = message.chat.id
     lst = ['wallpaper','anime','nsfwneko']
-    url = requests.get('https://mhankbarbar.herokuapp.com/api/random/'+random.choice(lst)+'?apiKey=qZOpWeYe2QqxGTQkUZ2L').json()
+    url = requests.get('https://mhankbarbar.herokuapp.com/api/random/'+random.choice(lst)+'?apiKey=api-key').json()
     if url['status'] == 200:
         hasil = url['result']
         bot.send_photo(chat_id, hasil)

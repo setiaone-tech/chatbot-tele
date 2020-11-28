@@ -32,15 +32,15 @@ def send_welcome(message):
 def send_menu(message):
     log(message, 'menu')
     chat_id = message.chat.id
-    bot.reply_to(message, "/ig : [username] = untuk nge-stalk akun ig\n/wiki : [cari] = Untuk mencari di wikipedia\n/ytm4 [link] = Untuk mendownload MP4 dari youtube\n/ytm3 [link] = Untuk mendownload MP3 dari youtube\n/prank : [no.hp] = Untuk melakukan prank telepon\n/gambar : [cari] : [banyaknya] = Untuk mencari gambar sebanyak yang diinginkan\nfilm : [cari] = Untuk mencari film dan link download-nya\n/animepict = Menampilkan gambar anime secara random\n/sholat : [daerah] = Menampilkan jadwal sholat berdasarkan daerah\n/nulis : [teks] = Untuk menulis teks secara online\n/kuso : [cari] = Untuk mencari anime dan link download-nya\n/twt : [username] = Untuk men-stalk akun twitter\n/chat : [kata] = Untuk ngobrol dengan Cindy\n/anime : [cari] = Untuk mencari anime]\n/google : [cari] = Untuk mencari dari google\n/quotes = Menampilkan quotes secara random")
+    bot.reply_to(message, "/ig [username] = untuk nge-stalk akun ig\n/wiki [cari] = Untuk mencari di wikipedia\n/ytm4 [link] = Untuk mendownload MP4 dari youtube\n/ytm3 [link] = Untuk mendownload MP3 dari youtube\n/prank [no.hp] = Untuk melakukan prank telepon\n/gambar [cari] [banyaknya] = Untuk mencari gambar sebanyak yang diinginkan\nfilm [cari] = Untuk mencari film dan link download-nya\n/animepict = Menampilkan gambar anime secara random\n/sholat [daerah] = Menampilkan jadwal sholat berdasarkan daerah\n/nulis [teks] = Untuk menulis teks secara online\n/kuso [cari] = Untuk mencari anime dan link download-nya\n/twt [username] = Untuk men-stalk akun twitter\n/chat [kata] = Untuk ngobrol dengan Cindy\n/anime [cari] = Untuk mencari anime]\n/google [cari] = Untuk mencari dari google\n/quotes = Menampilkan quotes secara random")
     bot.send_message(chat_id, 'Ketik perintah tanpa tanda [ ], harap perhatikan command apakah menggunakan tanda ":" atau "spasi"')
 
 @bot.message_handler(commands=['ig'])
 def send_ig(message):
     chat_id = message.chat.id
     bagi = message.text
-    if ':' in bagi:
-        user = bagi.split(':')
+    if ' ' in bagi:
+        user = bagi.split(' ',1)
         username = user[1]
         url = requests.get('https://mhankbarbar.herokuapp.com/api/stalk?username='+username+'&apiKey=api-key').json()
         print(url)
@@ -56,17 +56,13 @@ def send_ig(message):
 def send_wiki(message):
     bagi = message.text
     chat_id = message.chat.id
-    if ':' in bagi:
-        user = bagi.split(':')
+    if ' ' in bagi:
+        user = bagi.split(' ',1)
         cari = user[1]
         url = requests.get('https://mhankbarbar.herokuapp.com/api/wiki?q='+cari+'&lang=id&apiKey=api-key').json()
         if url['status'] == 200:
-            hasil = url['result'].split('===')
-            n = 0
-            for i in hasil:
-                if n < 4:
-                    n = n+1
-                    bot.send_message(chat_id, i)
+            hasil = url['result']
+            bot.send_message(chat_id, hasil[slice(4000)])
         else:
             bot.send_message(chat_id, url['error'])
     else:
@@ -89,8 +85,8 @@ def send_trap(message):
 @bot.message_handler(commands=['prank'])
 def send_prank(message):
     bagi = message.text
-    if ':' in bagi:
-        nomer = bagi.split(':')
+    if ' ' in bagi:
+        nomer = bagi.split(' ',1)
         cari = nomer[1]
         data = {
             "number":cari
@@ -107,7 +103,7 @@ def send_prank(message):
 def send_ytm3(message):
     chat_id = message.chat.id
     pesan = message.text
-    bagi = pesan.split(' ')
+    bagi = pesan.split(' ',1)
     cari = bagi[1]
     url = requests.get('https://mhankbarbar.herokuapp.com/api/yta?url='+cari+'&apiKey=api-key').json()
     if url['status'] == 200:
@@ -119,8 +115,8 @@ def send_ytm3(message):
 def send_twt(message):
     chat_id = message.chat.id
     bagi = message.text
-    if ':' in bagi:
-        user = bagi.split(':')
+    if ' ' in bagi:
+        user = bagi.split(' ',1)
         username = user[1]
         url = requests.get('https://mhankbarbar.herokuapp.com/api/twstalk?username='+username+'&apiKey=api-key').json()
         if url['status'] == 200:
@@ -135,8 +131,8 @@ def send_twt(message):
 def send_kuso(message):
     chat_id = message.chat.id
     bagi = message.text
-    if ':' in bagi:
-        pesan = bagi.split(':')
+    if ' ' in bagi:
+        pesan = bagi.split(' ',1)
         cari = pesan[1]
         url = requests.get('https://mhankbarbar.herokuapp.com/api/kuso?q='+cari+'&apiKey=api-key').json()
         if url['status'] != 200:
@@ -151,8 +147,8 @@ def send_kuso(message):
 def send_nulis(message):
     chat_id = message.chat.id
     pesan = message.text
-    if ':' in pesan:
-        bagi = pesan.split(':')
+    if ' ' in pesan:
+        bagi = pesan.split(' ',1)
         tulis = bagi[1]
         url = requests.get('https://mhankbarbar.herokuapp.com/nulis?text='+tulis+'&apiKey=api-key').json()
         hasil = url['result']
@@ -164,8 +160,8 @@ def send_nulis(message):
 def send_sholat(message):
     chat_id = message.chat.id
     pesan = message.text
-    if ':' in pesan:
-        bagi = pesan.split(':')
+    if ' ' in pesan:
+        bagi = pesan.split(' ',1)
         cari = bagi[1]
         url = requests.get('https://mhankbarbar.herokuapp.com/api/jadwalshalat?daerah='+cari+'&apiKey=api-key').json()
         bot.send_message(chat_id, 'Imsyak : '+url['Imsyak']+'\nSubuh : '+url['Subuh']+'\nDzuhur : '+url['Dzuhur']+'\nAshar : '+url['Ashar']+'\nMaghrib : '+url['Maghrib']+'\nIsya : '+url['Isya']+'\nMalam : '+url['Dhuha'])
@@ -182,7 +178,7 @@ def send_animepict(message):
 def send_ytm4(message):
     chat_id = message.chat.id
     pesan = message.text
-    bagi = pesan.split(' ')
+    bagi = pesan.split(' ',1)
     cari = bagi[1]
     data = {
     "url":cari
@@ -197,8 +193,8 @@ def send_ytm4(message):
 def send_film(message):
     chat_id = message.chat.id
     pesan = message.text
-    if ':' in pesan:
-        bagi = pesan.split(':')
+    if ' ' in pesan:
+        bagi = pesan.split(' ',1)
         cari = bagi[1]
         data = {
         "q":cari
@@ -218,8 +214,8 @@ def send_film(message):
 def send_gambar(message):
     chat_id = message.chat.id
     pesan = message.text
-    if ':' in pesan:
-        bagi = pesan.split(':')
+    if ' ' in pesan:
+        bagi = pesan.split(' ',1)
         cari = bagi[1]
         banyak = int(bagi[2])
         data = {
@@ -236,8 +232,8 @@ def send_gambar(message):
 @bot.message_handler(commands=['chat'])
 def chatbot(message):
     pesan = message.text
-    if ':' in pesan:
-        bagi = pesan.split(':')
+    if ' ' in pesan:
+        bagi = pesan.split(' ',1)
         cari = bagi[1]
         body = {
             "text": cari
@@ -258,15 +254,15 @@ def send_quotes(message):
 @bot.message_handler(commands=['google'])
 def send_google(message):
     pesan = message.text
-    if ':' in pesan:
-        bagi = pesan.split(':')
+    if ' ' in pesan:
+        bagi = pesan.split(' ',1)
         cari = bagi[1]
         body = {
             "q": cari
         }
         response = requests.get("https://afara.my.id/api/google-scraper", data = json.dumps(body), headers = headers).json()
         for i in response:
-            bot.reply_to(message, 'Judul : '+i['title']+'\n'+'Deskripsi : '+i['description']+'\n'+'Sumber : '+i['url'])
+            bot.reply_to(message, 'Judul : '+i['title']+'\n'+'Deskripsi : '+i['description'][slice(2000)]+'\n'+'Sumber : '+i['url'])
     else:
         bot.reply_to(message, 'Command Salah!')
 
@@ -274,8 +270,8 @@ def send_google(message):
 def send_anime(message):
     chat_id = message.chat.id
     pesan = message.text
-    if ':' in pesan:
-        bagi = pesan.split(':')
+    if ' ' in pesan:
+        bagi = pesan.split(' ',1)
         cari = bagi[1]
         body = {
             "q": cari
@@ -294,7 +290,7 @@ def send_anime(message):
 def send_igm4(message):
     chat_id = message.chat.id
     pesan = message.text
-    bagi = pesan.split(' ')
+    bagi = pesan.split(' ',1)
     cari = bagi[1]
     url = requests.get('https://mhankbarbar.herokuapp.com/api/ig?url='+cari+'&apiKey=api-key').json()
     if url['status'] == 200:
@@ -306,7 +302,7 @@ def send_igm4(message):
 def send_jpg(message):
     chat_id = message.chat.id
     pesan = message.text
-    bagi = pesan.split(' ')
+    bagi = pesan.split(' ',1)
     cari = bagi[1]
     url = requests.get('https://mhankbarbar.herokuapp.com/api/ig?url='+cari+'&apiKey=api-key').json()
     if url['status'] == 200:
